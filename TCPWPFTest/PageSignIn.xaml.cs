@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using TCPCSharpChat;
+using Newtonsoft.Json;
 
 namespace TCPWPFTest
 {
@@ -26,8 +30,15 @@ namespace TCPWPFTest
             InitializeComponent();
         }
 
+        class User
+        {
+            public string CurrentUser { get; set; }
+            public string OtherUsers { get; set; }
+        }
+
         private void btnSignIn_Click(object sender, RoutedEventArgs e)  //войти
         {
+
             string nickname = tboxNick.Text;        //изьятие из текстбокса
 
             if (nickname.Length == 0) { tboxNick.Foreground = Brushes.Red; tboxNick.ToolTip = "Введите хоть что-нибудь"; }      //проверка данных
@@ -35,9 +46,27 @@ namespace TCPWPFTest
             else if (Regex.IsMatch(nickname, @"[\%\/\\\&\?\,\'\;\:\!\-\0-9]+") == true) { tboxNick.Foreground = Brushes.Red; tboxNick.ToolTip = "Ник имеет недопустимые символы"; }
             else
             {
+                             
+                if (!(File.Exists("user.json")))
+                {
 
-                NavigationService.Navigate(new MainContent());      //переход на главную страницу
-                
+                    var options = new JsonSerializerOptions
+                    {
+                        WriteIndented = true
+                    };
+
+                    User user = new User() { CurrentUser = nickname, OtherUsers = ""};
+                    byte[] jsonString = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes<User>(user, options);
+                    File.WriteAllText("user.json", jsonString.ToString());
+
+                    NavigationService.Navigate(new MainContent());      //переход на главную страницу
+                }
+                else if (File.Exists("user.json")) 
+                {
+                    
+                    NavigationService.Navigate(new MainContent());      //переход на главную страницу
+                    
+                }
             }
         }
 
