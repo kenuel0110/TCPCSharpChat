@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.IO;
 using TCPCSharpChat;
 using Newtonsoft.Json;
+using System.Text.Encodings.Web;
 
 namespace TCPWPFTest
 {
@@ -30,12 +31,6 @@ namespace TCPWPFTest
             InitializeComponent();
         }
 
-        class User
-        {
-            public string CurrentUser { get; set; }
-            public string OtherUsers { get; set; }
-        }
-
         private void btnSignIn_Click(object sender, RoutedEventArgs e)  //войти
         {
 
@@ -46,28 +41,27 @@ namespace TCPWPFTest
             else if (Regex.IsMatch(nickname, @"[\%\/\\\&\?\,\'\;\:\!\-\0-9]+") == true) { tboxNick.Foreground = Brushes.Red; tboxNick.ToolTip = "Ник имеет недопустимые символы"; }
             else
             {
-                             
-                if (!(File.Exists("user.json")))
-                {
 
-                    var options = new JsonSerializerOptions
-                    {
-                        WriteIndented = true
-                    };
-
-                    User user = new User() { CurrentUser = nickname, OtherUsers = ""};
-                    byte[] jsonString = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes<User>(user, options);
-                    File.WriteAllText("user.json", jsonString.ToString());
-
-                    NavigationService.Navigate(new MainContent());      //переход на главную страницу
-                }
-                else if (File.Exists("user.json")) 
-                {
-                    
-                    NavigationService.Navigate(new MainContent());      //переход на главную страницу
-                    
-                }
+                save2file(nickname);
+                NavigationService.Navigate(new MainContent());      //переход на главную страницу
+                
             }
+        }
+
+        private void save2file(string nick)         //Сохранение данных о пользователe
+        {
+
+            User user = new User();
+            var options = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                WriteIndented = true
+            };
+
+            user.CurrentUser = nick;
+            string jsonString = System.Text.Json.JsonSerializer.Serialize<User>(user, options);
+            File.WriteAllText("user.json", jsonString);
+                
         }
 
         private void tboxNickEventHandler(object sender, TextChangedEventArgs args)
