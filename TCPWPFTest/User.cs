@@ -10,5 +10,7 @@ namespace TCPCSharpChat
     {
         public string CurrentUser { get; set; }
 
+        public string OldName { get; set; }
+
     }
 }

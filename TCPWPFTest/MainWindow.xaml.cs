@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -24,7 +25,14 @@ namespace TCPWPFTest
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new PageSignIn());   //открытие окна "регистрации" Нужно будет сделать проверку на "вхождение"
+            if (File.Exists("user.json"))
+            {
+                MainFrame.Navigate(new MainContent());   //открытие окна "регистрации" Нужно будет сделать проверку на "вхождение"
+            }
+            else if (!(File.Exists("user.json")))
+            {
+                MainFrame.Navigate(new PageSignIn());   //открытие окна "регистрации" Нужно будет сделать проверку на "вхождение"
+            }
         }
 
         private void btn_close_Click(object sender, RoutedEventArgs e)      //кнопка закрыть
