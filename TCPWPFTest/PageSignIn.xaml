@@ -1,0 +1,26 @@
+﻿<Page x:Class="TCPWPFTest.PageSignIn"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TCPWPFTest"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="PageSignIn">
+
+    <Grid>
+        
+        <Border Name="borderReg" MinWidth="400" Margin="15" Background="#533d00" VerticalAlignment="Center" Padding="30" MaxWidth="550" CornerRadius="20">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="30" Color="#292219" ShadowDepth="0"/>
+            </Border.Effect>
+            <StackPanel>
+                <TextBlock Text="Прошу, входите" Foreground="#ffff" FontSize="30" FontWeight="Bold" Margin="0 0 0 20"/>
+                <TextBox materialDesign:HintAssist.Hint="Введите никнейм" materialDesign:TextFieldAssist.UnderlineCornerRadius="8" materialDesign:TextFieldAssist.TextBoxViewMargin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Foreground="#fff"  materialDesign:TextFieldAssist.UnderlineBrush="#fff" Name="tboxNick" Foreground="#fff" BorderBrush="#89FFFFFF" CaretBrush="White" FontSize="14" SelectionBrush="#66DEDEDE" TextChanged="tboxNickEventHandler"/>
+                <Button Content="Войти" Margin="0 20" Background="#3d2800" BorderBrush="#003D2800" Click="btnSignIn_Click"  Name="btnSignIn"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
