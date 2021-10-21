@@ -37,7 +37,7 @@ namespace TCPWPFTest
 
         private void btn_close_Click(object sender, RoutedEventArgs e)      //кнопка закрыть
         {
-            Application.Current.Shutdown();
+            this.Close();
         }
 
         private void btn_maximize_Click(object sender, RoutedEventArgs e)   //кнопка развернуть

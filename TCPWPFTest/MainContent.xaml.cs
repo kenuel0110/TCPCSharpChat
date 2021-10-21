@@ -59,16 +59,16 @@ namespace TCPWPFTest
                 stream = client.GetStream(); // получаем поток
 
                 string message = userName;
-                byte[] data = Encoding.Unicode.GetBytes(message);
+                byte[] data = Encoding.UTF8.GetBytes(message);
                 stream.Write(data, 0, data.Length);
 
                 // запускаем новый поток для получения данных
                 Thread receiveThread = new Thread(new ThreadStart(receiveMessage));
                 receiveThread.Start(); //старт потока
-                send_notification($"{userName} присоеденился к чату");
+                send_notification($"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> присоеденился к чату</font></tr></td></table><br></body></html>");
 
             }
-            catch (ObjectDisposedException ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString());
             }
@@ -87,12 +87,12 @@ namespace TCPWPFTest
                     do
                     {
                         bytes = stream.Read(data, 0, data.Length);
-                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                        builder.Append(Encoding.UTF8.GetString(data, 0, bytes));
                     }
                     while (stream.DataAvailable);
 
                     string message = builder.ToString();
-                    Console.WriteLine(message);
+
                     if (!(tb_read_message.Dispatcher.CheckAccess()))
                     {
                         tb_read_message.Dispatcher.BeginInvoke(new Action(delegate () { tb_read_message.AppendText(message); }));
@@ -103,7 +103,7 @@ namespace TCPWPFTest
                     }
 
                 }
-                catch (ObjectDisposedException ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message.ToString()); //соединение было прервано
                     disconnect();
@@ -122,18 +122,17 @@ namespace TCPWPFTest
 
         private void btn_send_Click(object sender, RoutedEventArgs e)
         {
-            while (true)
-            {
-                string message = tb_editMessage.Text.ToString();
-                byte[] data = Encoding.Unicode.GetBytes(message);
-                stream.Write(data, 0, data.Length);
-            }
+             
+            string message = tb_editMessage.Text.ToString();
+            byte[] data = Encoding.UTF8.GetBytes(message);
+            stream.Write(data, 0, data.Length);
+            
         }
 
         public void send_notification(string notification) 
         {
             string message = notification;
-            byte[] data = Encoding.Unicode.GetBytes(message);
+            byte[] data = Encoding.UTF8.GetBytes(message);
             stream.Write(data, 0, data.Length);
         }
 
