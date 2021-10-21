@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Windows.Threading;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -71,10 +72,7 @@ namespace TCPWPFTest
             {
                 MessageBox.Show(ex.Message.ToString());
             }
-            finally
-            {
-                disconnect();
-            }
+            
         }
 
         private void receiveMessage()
@@ -95,11 +93,19 @@ namespace TCPWPFTest
 
                     string message = builder.ToString();
                     Console.WriteLine(message);
-                    tb_read_message.AppendText(message);//вывод сообщения
+                    if (!(tb_read_message.Dispatcher.CheckAccess()))
+                    {
+                        tb_read_message.Dispatcher.BeginInvoke(new Action(delegate () { tb_read_message.AppendText(message); }));
+                    }
+                    else 
+                    {
+                        tb_read_message.AppendText(message);//вывод сообщения
+                    }
+
                 }
-                catch
+                catch (ObjectDisposedException ex)
                 {
-                    MessageBox.Show("Подключение прервано!"); //соединение было прервано
+                    MessageBox.Show(ex.Message.ToString()); //соединение было прервано
                     disconnect();
                 }
             }
