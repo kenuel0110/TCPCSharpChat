@@ -83,7 +83,7 @@
                     <TextBox Name="tb_editMessage" FontSize="16" AcceptsReturn="True" materialDesign:HintAssist.Hint="Введите сообщение..." materialDesign:HintAssist.Foreground="LightGray" Foreground="White" Background="#322406" Margin="5" Style="{StaticResource MaterialDesignTextBoxBase}" materialDesign:TextFieldAssist.UnderlineBrush="#281b01" SelectionBrush="#CCFFFFFF" CaretBrush="White"/>
                 </DockPanel>
 
-                <Button Name="btn_send" Grid.Column="2" Margin="13,8,13,8" Height="54" Width="54" Background="#281b01" BorderThickness="0" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
+                <Button Name="btn_send" Grid.Column="2" Margin="13,8,13,8" Height="54" Width="54" Background="#281b01" BorderThickness="0" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Click="btn_send_Click">
                     <Image Source="/icons/btn_send.png" Margin="10"/>
                 </Button>
             </Grid>
