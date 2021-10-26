@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -60,6 +61,11 @@ namespace TCPWPFTest
         private void Label_MouseMove(object sender, MouseEventArgs e)
         {
 
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            MainContent.disconnect();
         }
     }
 }

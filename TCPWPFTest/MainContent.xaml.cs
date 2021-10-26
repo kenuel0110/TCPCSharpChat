@@ -111,7 +111,7 @@ namespace TCPWPFTest
             }
         }
 
-        private void disconnect()
+        public static void disconnect()
         {
             if (stream != null)
                 stream.Close();//отключение потока
