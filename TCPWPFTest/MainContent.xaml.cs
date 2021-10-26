@@ -58,9 +58,9 @@ namespace TCPWPFTest
                 client.Connect(host, port); //подключение клиента
                 stream = client.GetStream(); // получаем поток
 
-                string message = userName;
+                /*string message = userName;
                 byte[] data = Encoding.UTF8.GetBytes(message);
-                stream.Write(data, 0, data.Length);
+                stream.Write(data, 0, data.Length);*/
 
                 // запускаем новый поток для получения данных
                 Thread receiveThread = new Thread(new ThreadStart(receiveMessage));
@@ -93,13 +93,13 @@ namespace TCPWPFTest
 
                     string message = builder.ToString();
 
-                    if (!(tb_read_message.Dispatcher.CheckAccess()))
+                    if (!(tb_readMessage.Dispatcher.CheckAccess()))
                     {
-                        tb_read_message.Dispatcher.BeginInvoke(new Action(delegate () { tb_read_message.AppendText(message); }));
+                        tb_readMessage.Dispatcher.BeginInvoke(new Action(delegate () { tb_readMessage.AppendText(message); }));
                     }
                     else 
                     {
-                        tb_read_message.AppendText(message);//вывод сообщения
+                        tb_readMessage.AppendText(message);//вывод сообщения
                     }
 
                 }
@@ -124,9 +124,11 @@ namespace TCPWPFTest
         {
              
             string message = tb_editMessage.Text.ToString();
-            byte[] data = Encoding.UTF8.GetBytes(message);
+            byte[] data = Encoding.UTF8.GetBytes(message + "\n");
             stream.Write(data, 0, data.Length);
-            
+            tb_editMessage.Text = "";
+
+
         }
 
         public void send_notification(string notification) 

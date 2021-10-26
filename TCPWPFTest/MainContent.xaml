@@ -69,9 +69,11 @@
                 <RowDefinition/>
                 <RowDefinition Height="70"/>
             </Grid.RowDefinitions>
+            <TextBox Name="tb_readMessage" Visibility="Hidden" Width="0" Height="0"/>
             <DockPanel LastChildFill="True">
-                <RichTextBox Name="tb_read_message" Margin="3" Block.LineHeight="5" FontSize="16"  IsReadOnly="True" AcceptsReturn="True" materialDesign:TextFieldAssist.UnderlineCornerRadius="0"  materialDesign:TextFieldAssist.UnderlineBrush="#533d00" Style="{StaticResource MaterialDesignRichTextBox}" VerticalScrollBarVisibility="Visible" Foreground="White" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" CaretBrush="White" SelectionBrush="#CCFFFFFF"/>
+                <RichTextBox local:HtmlRichTextBoxBehavior.Text="{Binding ElementName= tb_readMessage, Path= Text}" Name="tb_read_message" Margin="3" Block.LineHeight="5" FontSize="16"  IsReadOnly="True" AcceptsReturn="True" materialDesign:TextFieldAssist.UnderlineCornerRadius="0"  materialDesign:TextFieldAssist.UnderlineBrush="#533d00" Style="{StaticResource MaterialDesignRichTextBox}" VerticalScrollBarVisibility="Visible" Foreground="White" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" CaretBrush="White" SelectionBrush="#CCFFFFFF"/>
             </DockPanel>
+            
 
             <Grid Grid.Row="2" Background="#281b01">
                 <Grid.ColumnDefinitions>
