@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TCPCSharpChat;
 
 namespace TCPWPFTest
 {
@@ -58,14 +60,21 @@ namespace TCPWPFTest
             Application.Current.MainWindow.WindowState = WindowState.Minimized;
         }
 
-        private void Label_MouseMove(object sender, MouseEventArgs e)
-        {
-
-        }
-
+        
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            string json = File.ReadAllText("user.json");
+            User users = JsonConvert.DeserializeObject<User>(json);
+            string userName = users.CurrentUser;
+
+            MainContent.send_notification($"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> покинул чат</font></tr></td></table><br></body></html>");
             MainContent.disconnect();
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
         }
     }
 }

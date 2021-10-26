@@ -127,7 +127,7 @@ namespace TCPWPFTest
             if (messageText != "") 
             {
                 
-                string message = $"<table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='top' bgcolor='#5c4200' width = 86%><b><font color = #bda980>{current}</b></font></td><td valign='top' bgcolor='#5c4200' width = 14% align = 'right'><font color = #bda980>{DateTime.Now.ToString()}</td></font><tr><td class = 'message' valign='top' bgcolor='#5c4200' width = 100% colspan= '2'>{messageText}</td></tr></table><br>"; // шаблон для сообщения
+                string message = $"<table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='top' bgcolor='#5c4200' width = 86%><b><font color = #bda980>{current}</b></font></td><td valign='top' bgcolor='#5c4200' width = 14% align = 'right'><font size='5px' color = #bda980>{DateTime.Now.ToString("HH:mm dd.MM.yy")}</td></font><tr><td class = 'message' valign='top' bgcolor='#5c4200' width = 100% colspan= '2'>{messageText}</td></tr></table><br>"; // шаблон для сообщения
 
                 byte[] data = Encoding.UTF8.GetBytes(message);
                 stream.Write(data, 0, data.Length);
@@ -136,7 +136,7 @@ namespace TCPWPFTest
 
         }
 
-        public void send_notification(string notification) 
+        public static void send_notification(string notification) 
         {
             string message = notification;
             byte[] data = Encoding.UTF8.GetBytes(message);

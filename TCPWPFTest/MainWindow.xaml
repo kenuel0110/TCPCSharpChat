@@ -28,9 +28,9 @@
 
         <Border Grid.ColumnSpan="2" Background="#1f180f">
 
-            <Grid HorizontalAlignment="Stretch">
+            <Grid HorizontalAlignment="Stretch" MouseDown="Grid_MouseDown">
 
-                <Label Content="Клиент" Foreground="LightGray" FontWeight="SemiBold" MouseMove="Label_MouseMove"/>
+                <Label Content="Клиент" Foreground="LightGray" FontWeight="SemiBold"/>
 
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 

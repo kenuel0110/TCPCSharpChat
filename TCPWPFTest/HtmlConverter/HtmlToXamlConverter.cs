@@ -2334,16 +2334,33 @@ namespace RichTextBlockSample.HtmlConverter
 					attributeValue = GetAttribute(htmlElement, "size");
 					if (attributeValue != null)
 					{
-						double fontSize = double.Parse(attributeValue) * (12.0 / 3.0);
-						if (fontSize < 1.0)
+						if (attributeValue == "5px") 
 						{
-							fontSize = 1.0;
+							double fontSize = double.Parse(Convert.ToString(3)) * (12.0 / 3.0);
+
+							if (fontSize < 1.0)
+							{
+								fontSize = 1.0;
+							}
+							else if (fontSize > 1000.0)
+							{
+								fontSize = 1000.0;
+							}
+							localProperties["font-size"] = fontSize.ToString();
 						}
-						else if (fontSize > 1000.0)
-						{
-							fontSize = 1000.0;
+						else {
+							double fontSize = double.Parse(attributeValue) * (12.0 / 3.0);
+
+							if (fontSize < 1.0)
+							{
+								fontSize = 1.0;
+							}
+							else if (fontSize > 1000.0)
+							{
+								fontSize = 1000.0;
+							}
+							localProperties["font-size"] = fontSize.ToString(); 
 						}
-						localProperties["font-size"] = fontSize.ToString();
 					}
 					attributeValue = GetAttribute(htmlElement, "color");
 					if (attributeValue != null)
@@ -2559,6 +2576,7 @@ namespace RichTextBlockSample.HtmlConverter
 			{
 				xamlTableCellElement.SetAttribute(Xaml_TableCell_ColumnSpan, colSpanString);
 			}
+			
 		}
 
 		#endregion Private Methods
@@ -2617,6 +2635,7 @@ namespace RichTextBlockSample.HtmlConverter
 
 		public const string Xaml_TableCell_ColumnSpan = "ColumnSpan";
 		public const string Xaml_TableCell_RowSpan = "RowSpan";
+		
 
 		public const string Xaml_Width = "Width";
 		public const string Xaml_Brushes_Black = "Black";
