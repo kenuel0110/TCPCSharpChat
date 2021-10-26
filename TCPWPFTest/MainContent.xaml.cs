@@ -122,12 +122,17 @@ namespace TCPWPFTest
 
         private void btn_send_Click(object sender, RoutedEventArgs e)
         {
-             
-            string message = tb_editMessage.Text.ToString();
-            byte[] data = Encoding.UTF8.GetBytes(message + "\n");
-            stream.Write(data, 0, data.Length);
-            tb_editMessage.Text = "";
+            
+            string messageText = tb_editMessage.Text.ToString();
+            if (messageText != "") 
+            {
+                
+                string message = $"<table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='top' bgcolor='#5c4200' width = 86%><b><font color = #bda980>{current}</b></font></td><td valign='top' bgcolor='#5c4200' width = 14% align = 'right'><font color = #bda980>{DateTime.Now.ToString()}</td></font><tr><td class = 'message' valign='top' bgcolor='#5c4200' width = 100% colspan= '2'>{messageText}</td></tr></table><br>"; // шаблон для сообщения
 
+                byte[] data = Encoding.UTF8.GetBytes(message);
+                stream.Write(data, 0, data.Length);
+                tb_editMessage.Text = "";
+            }
 
         }
 

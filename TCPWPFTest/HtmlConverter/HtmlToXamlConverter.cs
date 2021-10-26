@@ -2552,12 +2552,12 @@ namespace RichTextBlockSample.HtmlConverter
 			Debug.Assert(xamlTableCellElement.LocalName == Xaml_TableCell);
 
 			// set default border thickness for xamlTableCellElement to enable gridlines
-			xamlTableCellElement.SetAttribute(Xaml_TableCell_BorderThickness, "1,1,1,1");
+			xamlTableCellElement.SetAttribute(Xaml_TableCell_BorderThickness, "0,0,0,0");
 			xamlTableCellElement.SetAttribute(Xaml_TableCell_BorderBrush, Xaml_Brushes_Black);
-			string rowSpanString = GetAttribute((XmlElement)htmlChildNode, "rowspan");
-			if (rowSpanString != null)
+			string colSpanString = GetAttribute((XmlElement)htmlChildNode, "colspan");
+			if (colSpanString != null)
 			{
-				xamlTableCellElement.SetAttribute(Xaml_TableCell_RowSpan, rowSpanString);
+				xamlTableCellElement.SetAttribute(Xaml_TableCell_ColumnSpan, colSpanString);
 			}
 		}
 
