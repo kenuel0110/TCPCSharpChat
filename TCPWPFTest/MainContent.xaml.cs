@@ -30,24 +30,30 @@ namespace TCPWPFTest
         static TcpClient client;                        //переменная клиента
         static NetworkStream stream;                    //переменная потока
 
-        public string current = "";         //переменая для имени
+        public static string current = "";         //переменая для имени
 
         public MainContent()
         {
 
             InitializeComponent();
             read4jsonName();
-            label_UserNameMain.Text = current;
+            changeName();
             start();
 
         }
 
-        public void read4jsonName()            //функция чтения json файла имени
+        public static void read4jsonName()            //функция чтения json файла имени
         {
             string json = File.ReadAllText("user.json");
             User users = JsonConvert.DeserializeObject<User>(json);
             current = users.CurrentUser;
         }
+
+        public void changeName()            //функция чтения json файла имени
+        {
+            label_UserNameMain.Text = current;
+        }
+
 
         private void start()
         {
@@ -143,5 +149,11 @@ namespace TCPWPFTest
             stream.Write(data, 0, data.Length);
         }
 
+        private void btn_nick_mainContent_Click(object sender, RoutedEventArgs e)
+        {
+            ContextMenu cm = this.FindResource("CMUser") as ContextMenu;
+            cm.PlacementTarget = sender as Button;
+            cm.IsOpen = true;
+        }
     }
 }
