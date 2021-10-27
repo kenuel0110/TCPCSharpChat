@@ -26,9 +26,25 @@ namespace TCPWPFTest
     /// </summary>
     public partial class PageSignIn : Page
     {
+
+        public string current = "";
+        public string oldname = "";
+        public string status = "";
+
+
         public PageSignIn()
         {
             InitializeComponent();
+
+            if (File.Exists("user.json"))
+            {
+                readjson();
+                if (oldname != null) 
+                {
+                    tboxNick.Text = oldname;
+                }
+            }
+
         }
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)  //войти
@@ -59,10 +75,23 @@ namespace TCPWPFTest
             };
 
             user.CurrentUser = nick;
+            user.OldName = null;
+            user.Status = "In";
             string jsonString = System.Text.Json.JsonSerializer.Serialize<User>(user, options);
             File.WriteAllText("user.json", jsonString);
                 
         }
+
+        public void readjson()            //функция чтения json файла
+        {
+            string json = File.ReadAllText("user.json");
+            User users = JsonConvert.DeserializeObject<User>(json);
+            current = users.CurrentUser;
+            oldname = users.OldName;
+            status = users.Status;
+
+        }
+
 
         private void tboxNickEventHandler(object sender, TextChangedEventArgs args)
         {

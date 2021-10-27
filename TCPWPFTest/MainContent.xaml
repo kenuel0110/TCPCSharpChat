@@ -7,22 +7,31 @@
       mc:Ignorable="d" 
       Width="auto" Height="auto"  
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      Title="MainContent">
+      Title="MainContent" >
 
     <Page.Resources>
         <ResourceDictionary>
             <Image x:Key="icon_ava" Source = "/icons/icon_ava.png"  Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <Image x:Key="icon_send" Source="/icons/btn_send.png" Margin="10"/>
             <ContextMenu Background = "#382500" x:Key="CMUser">
-                <MenuItem Foreground="White" Header="Изменить имя">
+                <MenuItem Foreground="White" Header="Изменить имя" Click="btn_rename">
                     <MenuItem.Icon>
                         <Image Source="/icons/icon_rename.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Foreground="DarkRed" Header="Выйти"/>
+                <MenuItem Foreground="DarkRed" Header="Выйти" Click="btn_signout" ToolTip="Внимание! Приложение закроется"/>
             </ContextMenu>
+            <RoutedUICommand x:Key="sendMessage"/>
         </ResourceDictionary>
     </Page.Resources>
+
+    <Page.CommandBindings>
+        <CommandBinding Command="{StaticResource sendMessage}" Executed="btn_send_Click" />
+    </Page.CommandBindings>
+
+    <Page.InputBindings>
+        <KeyBinding Key="Enter" Modifiers="Ctrl" Command="{StaticResource sendMessage}" />
+    </Page.InputBindings>
 
     <Grid>
 
@@ -103,10 +112,10 @@
                 </Grid.ColumnDefinitions>
 
                 <DockPanel LastChildFill="True">
-                    <TextBox Name="tb_editMessage" FontSize="16" AcceptsReturn="True" materialDesign:HintAssist.Hint="Введите сообщение..." materialDesign:HintAssist.Foreground="LightGray" Foreground="White" Background="#322406" Margin="5" Style="{StaticResource MaterialDesignTextBoxBase}" materialDesign:TextFieldAssist.UnderlineBrush="#281b01" SelectionBrush="#CCFFFFFF" CaretBrush="White"/>
+                    <TextBox  Name="tb_editMessage" TextWrapping="Wrap" FontSize="16" AcceptsReturn="True" materialDesign:HintAssist.Hint="Введите сообщение..." materialDesign:HintAssist.Foreground="LightGray" Foreground="White" Background="#322406" Margin="5" Style="{StaticResource MaterialDesignTextBoxBase}" materialDesign:TextFieldAssist.UnderlineBrush="#281b01" SelectionBrush="#CCFFFFFF" CaretBrush="White"/>
                 </DockPanel>
 
-                <Button Name="btn_send" Grid.Column="2" Content="{StaticResource icon_send}" Margin="13,8,13,8" Height="54" Width="54" Background="#281b01" BorderThickness="0" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Click="btn_send_Click"/>
+                <Button ToolTip="Для отправки сообщения нажмите 'Ctrl+Enter'" Name="btn_send" Grid.Column="2" Content="{StaticResource icon_send}" Margin="13,8,13,8" Height="54" Width="54" Background="#281b01" BorderThickness="0" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Command="{StaticResource sendMessage}"/>
             </Grid>
         </Grid>
 

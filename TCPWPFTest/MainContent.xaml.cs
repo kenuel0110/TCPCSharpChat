@@ -18,6 +18,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TCPCSharpChat;
+using System.Text.Json;
+using System.Text.Encodings.Web;
 
 namespace TCPWPFTest
 {
@@ -59,11 +61,16 @@ namespace TCPWPFTest
         {
             string userName = current;
             client = new TcpClient();
+
             try
             {
                 client.Connect(host, port); //подключение клиента
                 stream = client.GetStream(); // получаем поток
-
+            }
+            catch //окно настройки соедиения
+            {
+            
+            }
                 /*string message = userName;
                 byte[] data = Encoding.UTF8.GetBytes(message);
                 stream.Write(data, 0, data.Length);*/
@@ -73,12 +80,7 @@ namespace TCPWPFTest
                 receiveThread.Start(); //старт потока
                 send_notification($"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> присоеденился к чату</font></tr></td></table><br></body></html>");
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
-            }
-            
+      
         }
 
         private void receiveMessage()
@@ -109,9 +111,8 @@ namespace TCPWPFTest
                     }
 
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show(ex.Message.ToString()); //соединение было прервано
                     disconnect();
                 }
             }
@@ -126,17 +127,17 @@ namespace TCPWPFTest
             Environment.Exit(0); //завершение процесса
         }
 
-        private void btn_send_Click(object sender, RoutedEventArgs e)
+        public void btn_send_Click(object sender, ExecutedRoutedEventArgs e)
         {
-            
             string messageText = tb_editMessage.Text.ToString();
+
             if (messageText != "") 
             {
-                
                 string message = $"<table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='top' bgcolor='#5c4200' width = 86%><b><font color = #bda980>{current}</b></font></td><td valign='top' bgcolor='#5c4200' width = 14% align = 'right'><font size='5px' color = #bda980>{DateTime.Now.ToString("HH:mm dd.MM.yy")}</td></font><tr><td class = 'message' valign='top' bgcolor='#5c4200' width = 100% colspan= '2'>{messageText}</td></tr></table><br>"; // шаблон для сообщения
 
                 byte[] data = Encoding.UTF8.GetBytes(message);
                 stream.Write(data, 0, data.Length);
+                tb_read_message.ScrollToEnd();
                 tb_editMessage.Text = "";
             }
 
@@ -155,5 +156,39 @@ namespace TCPWPFTest
             cm.PlacementTarget = sender as Button;
             cm.IsOpen = true;
         }
+
+        private void btn_rename(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_signout(object sender, RoutedEventArgs e)
+        {
+
+            var options = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                WriteIndented = true
+            };
+
+            User user = new User();       
+
+            user.OldName = current;
+            user.CurrentUser = null;
+            user.Status = "Out";
+
+            string jsonString = System.Text.Json.JsonSerializer.Serialize<User>(user, options);
+            File.WriteAllText("user.json", jsonString);
+
+            tb_readMessage.Text = "";
+
+            send_notification($"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{current}</b> покинул чат</font></tr></td></table><br></body></html>");
+
+            disconnect();
+
+            Application.Current.Shutdown();
+        }
+
+        
     }
 }

@@ -25,12 +25,26 @@ namespace TCPWPFTest
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public string current = "";
+        public string oldname = "";
+        public string status = "";
+
         public MainWindow()
         {
             InitializeComponent();
+
             if (File.Exists("user.json"))
             {
-                MainFrame.Navigate(new MainContent());   //открытие окна "регистрации" Нужно будет сделать проверку на "вхождение"
+                readjson();
+                if (status == "In")
+                {
+                    MainFrame.Navigate(new MainContent());   //открытие окна "регистрации" Нужно будет сделать проверку на "вхождение"
+                }
+                else if (status == "Out") 
+                {
+                    MainFrame.Navigate(new PageSignIn());
+                }
             }
             else if (!(File.Exists("user.json")))
             {
@@ -76,5 +90,16 @@ namespace TCPWPFTest
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
+
+        public void readjson()            //функция чтения json файла
+        {
+            string json = File.ReadAllText("user.json");
+            User users = JsonConvert.DeserializeObject<User>(json);
+            current = users.CurrentUser;
+            oldname = users.OldName;
+            status = users.Status;
+
+        }
+
     }
 }
