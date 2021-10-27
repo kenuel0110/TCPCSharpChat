@@ -20,6 +20,7 @@ using System.Windows.Shapes;
 using TCPCSharpChat;
 using System.Text.Json;
 using System.Text.Encodings.Web;
+using System.Windows.Media.Effects;
 
 namespace TCPWPFTest
 {
@@ -189,6 +190,27 @@ namespace TCPWPFTest
             Application.Current.Shutdown();
         }
 
-        
+        private void btn_setting_Click(object sender, RoutedEventArgs e)
+        {
+
+            Canvas.SetZIndex(grid_settings, 2);
+            grid_settings.Visibility = Visibility.Visible;
+            frame_settings.Source = new Uri("Page_Settings.xaml", UriKind.Relative); 
+            BlurEffect blur = new BlurEffect();
+            blur.Radius = 4;
+            grid_MainContent.Effect = blur;
+
+        }
+
+        private void btn_close_Click(object sender, RoutedEventArgs e)
+        {
+
+             Canvas.SetZIndex(grid_settings, 0);
+             grid_settings.Visibility = Visibility.Hidden;
+             BlurEffect blur = new BlurEffect();
+             blur.Radius = 0;
+             grid_MainContent.Effect = blur;
+            
+        }
     }
 }
