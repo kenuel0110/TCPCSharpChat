@@ -34,7 +34,13 @@ namespace TCPWPFTest
         {
             InitializeComponent();
 
-            if (File.Exists("user.json"))
+            if (File.Exists("fail.json"))
+            {
+                MainFrame.Navigate(new PageConnectFull());
+                File.Delete("fail.json");
+            }
+
+            else if (File.Exists("user.json"))
             {
                 readjson();
                 if (status == "In")
@@ -49,11 +55,6 @@ namespace TCPWPFTest
             else if (!(File.Exists("user.json")))
             {
                 MainFrame.Navigate(new PageSignIn());   //открытие окна "регистрации" Нужно будет сделать проверку на "вхождение"
-            }
-            if (File.Exists("fail.json")) 
-            {
-                File.Delete("fail.json");
-                MainFrame.Navigate(new PageConnectFull());
             }
         }
 

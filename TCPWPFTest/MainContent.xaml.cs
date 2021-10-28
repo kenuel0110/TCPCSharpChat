@@ -99,6 +99,7 @@ namespace TCPWPFTest
             {
                 File.WriteAllText("fail.json", "Траблы");
                 MessageBox.Show("Проблемы с соединением, перезапустите приложение");
+                disconnect();
                 Application.Current.Shutdown();
             }
                 
