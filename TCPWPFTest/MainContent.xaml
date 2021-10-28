@@ -177,6 +177,92 @@
             </Border>
 
         </Grid>
+        <Grid Name="grid_about" Visibility="Hidden" Canvas.ZIndex="0" Width="{Binding ElementName=canvas_main, Path=ActualWidth}" Height="{Binding ElementName=canvas_main, Path=ActualHeight}" Background="Transparent">
+            <Border >
+                <Border.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.2"/>
+                </Border.Background>
+            </Border>
+            <Grid Background="#382500" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Background="#1f180f">
+                    <TextBlock Foreground="White" VerticalAlignment="Center" Margin="5" Text="О программе" HorizontalAlignment="Left"/>
+                    <Button HorizontalAlignment="Right"
+                    x:Name="btn_close_about"
+                    Width="20"
+                    Height="20"
+                    Margin="2.5"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    BorderBrush="Transparent"                  
+                    Foreground="White"
+                    Click="btn_close_about_Click"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                        <Image Source="/icons/btn_close.png" />
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Image Grid.Column="0" Source="icons/logo.png" Margin="5" Height="120" Width="120" VerticalAlignment="Top"/>
+                        <Grid Grid.Column="1" Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0">
+                                <TextBlock Foreground="White" FontWeight="SemiBold" Text="C# TCP Чат комната"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Foreground="White" FontWeight="SemiBold" Text="Снапшот версии:"/>
+                                    <TextBlock Foreground="White" Margin="3,0,0,0" Text="29.10.0114"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Margin="0,8,0,8">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Foreground="White" FontWeight="SemiBold" Text="Программа разработана:"/>
+                                    <TextBlock Foreground="White" Margin="3,0,0,0" Text="2StrangerTeam"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Foreground="White" FontWeight="SemiBold" Text="Email:"/>
+                                    <TextBlock Foreground="White" Margin="3,0,0,0" Text="zerozero000one@gmail.com"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Foreground="White" FontWeight="SemiBold" Text="Программа протестированна:"/>
+                                    <TextBlock Foreground="White" Margin="3,0,0,0" Text="QWERTY"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Foreground="White" FontWeight="SemiBold" Text="Email:"/>
+                                    <TextBlock Foreground="White" Margin="3,0,0,0" Text="QWERTY@gmail.com"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                    <StackPanel Grid.Row="1" Margin="10">
+                        <TextBlock Foreground="White" Margin="5" FontWeight="SemiBold" HorizontalAlignment="Center" Text="C# TCP Чат комната"/>
+                        <TextBlock Foreground="White" Text="Использует архитектуру 'Клиент-сервер'"/>
+                        <TextBlock Foreground="White" Text="Локально сохраняет ник и историю сообщений"/>
+                        <TextBlock Foreground="White" Text="Локально сохраняет 'Ник' и историю сообщений пользователя"/>
+                        <TextBlock Foreground="White" Text="Взаимодействует с Python клиентом" Margin="0,0,0,10"/>
+                    </StackPanel>
+                </Grid>
+
+        </Grid>
+
+        </Grid>
     </Canvas>
 </Page>
     

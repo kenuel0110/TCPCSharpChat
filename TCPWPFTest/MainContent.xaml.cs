@@ -24,6 +24,7 @@ using System.Windows.Media.Effects;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Microsoft.Toolkit.Uwp.Notifications;
+using System.Management;
 
 namespace TCPWPFTest
 {
@@ -89,7 +90,9 @@ namespace TCPWPFTest
 
         public static void pcNotification(string message) 
         {
-            if (focus == "False")
+            string platform = Environment.OSVersion.Platform.ToString();
+
+            if (focus == "False" & platform == "Win32NT")
             {
                 new ToastContentBuilder()
                     .AddText("Чат")
@@ -285,6 +288,19 @@ namespace TCPWPFTest
              blur.Radius = 0;
              grid_MainContent.Effect = blur;
             
+        }
+
+
+
+        private void btn_close_about_Click(object sender, RoutedEventArgs e)
+        {
+
+            Canvas.SetZIndex(grid_about, 0);
+            grid_about.Visibility = Visibility.Hidden;
+            BlurEffect blur = new BlurEffect();
+            blur.Radius = 0;
+            grid_MainContent.Effect = blur;
+
         }
 
         private void tboxNickEventHandler(object sender, TextChangedEventArgs args)
