@@ -39,22 +39,22 @@ namespace TCPWPFTest
         static NetworkStream stream;                    //переменная потока
 
         public static string current = "";         //переменая для имени
-        public static string oldname = "";
-        public static string status = "";
+        public static string oldname = "";          //переменая старого имени
+        public static string status = "";           //переменая статуса (Войдён, не войдён)
 
-        public static string focus = "true";
+        public static string focus = "true";        // переменая фокуса на окне или этой странице
 
         public MainContent()
         {
 
-            InitializeComponent();
-            read4jsonName();
-            changeName();
+            InitializeComponent();      
+            read4jsonName();                        //чтения данных из джейсона
+            changeName();                           //измеение ника в нижнем левом углу
 
-            if (!(File.Exists("connection.json")))
+            if (!(File.Exists("connection.json")))  //если не существует файла с настройками соединения создаёться новый с настройками по умолчанию
             {
                 Connecting conn = new Connecting();
-                var options = new JsonSerializerOptions
+                var options = new JsonSerializerOptions         //настройка джейсона для utf-8
                 {
                     Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                     WriteIndented = true
@@ -65,8 +65,14 @@ namespace TCPWPFTest
 
                 string jsonString = System.Text.Json.JsonSerializer.Serialize<Connecting>(conn, options);
                 File.WriteAllText("connection.json", jsonString);
+
+                string json = File.ReadAllText("connection.json");
+                Connecting con = JsonConvert.DeserializeObject<Connecting>(json);
+                host = con.ip;
+                port = con.port;
+
             }
-            else if (File.Exists("connection.json")) 
+            else if (File.Exists("connection.json")) //иначе читает файл
             {
                 string json = File.ReadAllText("connection.json");
                 Connecting conn = JsonConvert.DeserializeObject<Connecting>(json);
@@ -74,7 +80,7 @@ namespace TCPWPFTest
                 port = conn.port;
             }
 
-            start();
+            start(); // основная функция
 
 
         }
@@ -88,7 +94,7 @@ namespace TCPWPFTest
             status = users.Status;
         }
 
-        public static void pcNotification(string message) 
+        public static void pcNotification(string message)       //функция уведамлений windows 10 
         {
             string platform = Environment.OSVersion.Platform.ToString();
 
@@ -101,7 +107,7 @@ namespace TCPWPFTest
             }
         }
 
-        public void changeName()            //функция чтения json файла имени
+        public void changeName()            //функция изменения плашки имени
         {
             label_UserNameMain.Text = current;
         }
@@ -109,7 +115,7 @@ namespace TCPWPFTest
 
         private void start()
         {
-            string userName = current;
+            string userName = current;      //переменая имени
             client = new TcpClient();
 
             try
@@ -117,9 +123,9 @@ namespace TCPWPFTest
                 client.Connect(host, port); //подключение клиента
                 stream = client.GetStream(); // получаем поток
             }
-            catch //окно настройки соедиения
+            catch //окно настройки соедиения если подключиться не получилось
             {
-                File.WriteAllText("fail.json", "Траблы");
+                File.WriteAllText("fail.json", "Траблы");   //создание файла, чтобы при перезагрузке открыть страницу с настройками соединения
                 MessageBox.Show("Проблемы с соединением, перезапустите приложение");
                 disconnect();
                 Application.Current.Shutdown();
@@ -129,12 +135,12 @@ namespace TCPWPFTest
                 Thread receiveThread = new Thread(new ThreadStart(receiveMessage));
                 receiveThread.Start(); //старт потока
                 string notification_startup = $"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> присоеденился к чату</font></tr></td></table><br></body></html>";
-                send_notification(notification_startup);
+                send_notification(notification_startup);    //функция "внутренних уведомлений"
 
       
         }
 
-        private void receiveMessage()
+        private void receiveMessage()       //функция получения сообщений (другой поток)
         {
             while (true)
             {
@@ -152,16 +158,16 @@ namespace TCPWPFTest
 
                     string message = builder.ToString();
 
-                    if (!(tb_readMessage.Dispatcher.CheckAccess()))
+                    if (!(tb_readMessage.Dispatcher.CheckAccess()))     //проверка доступа к объекту из другого потока
                     {
-                        tb_readMessage.Dispatcher.BeginInvoke(new Action(delegate () { tb_readMessage.AppendText(message); }));
+                        tb_readMessage.Dispatcher.BeginInvoke(new Action(delegate () { tb_readMessage.AppendText(message); })); //получение доступа к элементу из другого потока
                     }
                     else 
                     {
                         tb_readMessage.AppendText(message);//вывод сообщения
                     }
 
-                    if (System.IO.Directory.Exists("messages"))
+                    if (System.IO.Directory.Exists("messages"))     //запись сообщений в файл
                     {
                         if (File.Exists($"messages/{current}.txt"))
                         {
@@ -178,6 +184,7 @@ namespace TCPWPFTest
                     {
                         Directory.CreateDirectory("messages");
                         File.WriteAllText($"messages/{current}.txt", message);
+                        pcNotification(message);
                     }
 
                 }
@@ -188,7 +195,7 @@ namespace TCPWPFTest
             }
         }
 
-        public static void disconnect()
+        public static void disconnect() //функция отключения от сервера
         {
             if (stream != null)
                 stream.Close();//отключение потока
@@ -197,7 +204,7 @@ namespace TCPWPFTest
             Environment.Exit(0); //завершение процесса
         }
 
-        public void btn_send_Click(object sender, ExecutedRoutedEventArgs e)
+        public void btn_send_Click(object sender, ExecutedRoutedEventArgs e)   //отправка сообщения
         {
             string messageText = tb_editMessage.Text.ToString();
 
@@ -213,37 +220,37 @@ namespace TCPWPFTest
 
         }
 
-        public static void send_notification(string notification) 
+        public static void send_notification(string notification)       // отправка "внутреннего уведомления"
         {
             string message = notification;
             byte[] data = Encoding.UTF8.GetBytes(message);
             stream.Write(data, 0, data.Length);
         }
 
-        private void btn_nick_mainContent_Click(object sender, RoutedEventArgs e)
+        private void btn_nick_mainContent_Click(object sender, RoutedEventArgs e)   //кнопка настроек пользователя
         {
-            ContextMenu cm = this.FindResource("CMUser") as ContextMenu;
+            ContextMenu cm = this.FindResource("CMUser") as ContextMenu;    //закрепление контекстного меню
             cm.PlacementTarget = sender as Button;
             cm.IsOpen = true;
         }
 
-        private void btn_rename(object sender, RoutedEventArgs e)
+        private void btn_rename(object sender, RoutedEventArgs e)       //открытие окна переименования
         {
 
-            Canvas.SetZIndex(grid_rename, 2);
-            grid_rename.Visibility = Visibility.Visible;
-            BlurEffect blur = new BlurEffect();
+            Canvas.SetZIndex(grid_rename, 2);               //перенос на передний план
+            grid_rename.Visibility = Visibility.Visible;        
+            BlurEffect blur = new BlurEffect();         //создание эффекта блюр на "фон"
             blur.Radius = 6;
-            grid_MainContent.Effect = blur;
+            grid_MainContent.Effect = blur;             //применение эффекта
 
         }
 
 
 
-        private void btn_signout(object sender, RoutedEventArgs e)
+        private void btn_signout(object sender, RoutedEventArgs e)      //кнопка выхода
         {
 
-            var options = new JsonSerializerOptions
+            var options = new JsonSerializerOptions         //обновление данных в json 
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                 WriteIndented = true
@@ -267,7 +274,7 @@ namespace TCPWPFTest
             Application.Current.Shutdown();
         }
 
-        private void btn_setting_Click(object sender, RoutedEventArgs e)
+        private void btn_setting_Click(object sender, RoutedEventArgs e)        //открытие окна настроек 
         {
 
             Canvas.SetZIndex(grid_settings, 2);
@@ -279,20 +286,20 @@ namespace TCPWPFTest
 
         }
 
-        private void btn_close_Click(object sender, RoutedEventArgs e)
+        private void btn_close_Click(object sender, RoutedEventArgs e)          //кнопка закрытия окна настроек
         {
 
-             Canvas.SetZIndex(grid_settings, 0);
-             grid_settings.Visibility = Visibility.Hidden;
+             Canvas.SetZIndex(grid_settings, 0);                //перенос на задний план
+             grid_settings.Visibility = Visibility.Hidden;      //скрытие окна
              BlurEffect blur = new BlurEffect();
-             blur.Radius = 0;
-             grid_MainContent.Effect = blur;
+             blur.Radius = 0;                                   //убирание блюра
+             grid_MainContent.Effect = blur;                    //применение эффекта
             
         }
 
 
 
-        private void btn_close_about_Click(object sender, RoutedEventArgs e)
+        private void btn_close_about_Click(object sender, RoutedEventArgs e)        // закрытие окна "о программе"
         {
 
             Canvas.SetZIndex(grid_about, 0);
@@ -303,12 +310,12 @@ namespace TCPWPFTest
 
         }
 
-        private void tboxNickEventHandler(object sender, TextChangedEventArgs args)
+        private void tboxNickEventHandler(object sender, TextChangedEventArgs args)     //испровление цвета шрифта в окне переименования
         {
             tboxNewNick.Foreground = Brushes.White;        //исправления цвета текста при ошибке
         }
 
-        private void btnRename_Click(object sender, RoutedEventArgs e)
+        private void btnRename_Click(object sender, RoutedEventArgs e)          //кнопка переименовать в окне переименования
         {
             string nickname = tboxNewNick.Text;        //изьятие из текстбокса
             string[] allFoundFiles = Directory.GetFiles("messages", $"{nickname}.txt");
@@ -323,10 +330,10 @@ namespace TCPWPFTest
             }
         }
 
-        private void rename(string nickname) 
+        private void rename(string nickname)    //функция изменения имени
         {
-            read4jsonName();
-            var options = new JsonSerializerOptions
+            read4jsonName();        //чтение текущих данных
+            var options = new JsonSerializerOptions     //их исправление
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                 WriteIndented = true
@@ -341,16 +348,16 @@ namespace TCPWPFTest
             string jsonString = System.Text.Json.JsonSerializer.Serialize<User>(user, options);
             File.WriteAllText("user.json", jsonString);
 
-            File.Move($"messages/{current}.txt", $"messages/{nickname}.txt");
+            File.Move($"messages/{current}.txt", $"messages/{nickname}.txt");  //переименование файла с историей сообщений
 
             string message = $"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{current}</b> изменил имя на <b>{nickname}</b></font></tr></td></table><br></body></html>";
-            send_notification(message);
-            current = nickname;
-            changeName();
+            send_notification(message);     //уведомление о изменении имени
+            current = nickname;         //обновление данных
+            changeName();               //изменение имени в меню
 
             tboxNewNick.Text = "";
 
-            Canvas.SetZIndex(grid_rename, 0);
+            Canvas.SetZIndex(grid_rename, 0);       // скрытие окна
             grid_rename.Visibility = Visibility.Hidden;
             BlurEffect blur = new BlurEffect();
             blur.Radius = 0;
@@ -358,7 +365,7 @@ namespace TCPWPFTest
 
         }
 
-        private void btnRenameCancel_Click(object sender, RoutedEventArgs e)
+        private void btnRenameCancel_Click(object sender, RoutedEventArgs e)  //кнопка закрытия окна переименования
         {
             tboxNewNick.Text = "";
             Canvas.SetZIndex(grid_rename, 0);
@@ -368,14 +375,23 @@ namespace TCPWPFTest
             grid_MainContent.Effect = blur;
         }
 
-        private void Page_LostFocus(object sender, RoutedEventArgs e)
+        private void Page_LostFocus(object sender, RoutedEventArgs e)       //событие потери фокуса на странице
         {
             focus = "False";
         }
 
-        private void Page_GotFocus(object sender, RoutedEventArgs e)
+        private void Page_GotFocus(object sender, RoutedEventArgs e)        //событие появления фокуса на странице
         {
             focus = "True";
+        }
+
+        private void btn_About_Click(object sender, RoutedEventArgs e)      //открытие окна "о программе"
+        {
+            Canvas.SetZIndex(grid_about, 2);
+            grid_about.Visibility = Visibility.Visible;
+            BlurEffect blur = new BlurEffect();
+            blur.Radius = 6;
+            grid_MainContent.Effect = blur;
         }
     }
 }

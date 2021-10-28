@@ -24,18 +24,18 @@ namespace TCPWPFTest
     public partial class PageHistory : Page
     {
         public static string current = "";         //переменая для имени
-        public static string oldname = "";
-        public static string status = "";
+        public static string oldname = "";          //переменная старого имени
+        public static string status = "";                   // переменая статуса
         public PageHistory()
         {
             InitializeComponent();
             read4jsonName();
-            if (System.IO.Directory.Exists("messages")) 
+            if (System.IO.Directory.Exists("messages"))         //проверка существования папки с сообщениями
             {
                 if (File.Exists($"messages/{current}.txt"))
                 {
-                    string messages = File.ReadAllText($"messages/{current}.txt");
-                    tb_readMessage.Text = messages;
+                    string messages = File.ReadAllText($"messages/{current}.txt");      //чтение сообщений
+                    tb_readMessage.Text = messages; //заполнение
                     tb_readMessage.ScrollToEnd();
                 }
             }
@@ -56,11 +56,11 @@ namespace TCPWPFTest
             status = users.Status;
         }
 
-        private void btn_Back_Click(object sender, RoutedEventArgs e)
+        private void btn_Back_Click(object sender, RoutedEventArgs e) //возвращение в меню настроек
         {
             if (NavigationService.CanGoBack == true)
             {
-                NavigationService.GoBack();
+                NavigationService.GoBack(); 
             }
         }
 

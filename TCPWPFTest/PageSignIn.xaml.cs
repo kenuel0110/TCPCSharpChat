@@ -27,21 +27,21 @@ namespace TCPWPFTest
     public partial class PageSignIn : Page
     {
 
-        public string current = "";
-        public string oldname = "";
-        public string status = "";
+        public string current = "";     //переменая имени
+        public string oldname = "";     //переменная старого имени
+        public string status = "";          //переменая статуса
 
 
         public PageSignIn()
         {
             InitializeComponent();
 
-            if (File.Exists("user.json"))
+            if (File.Exists("user.json"))       //проверка существования файла пользователя
             {
                 readjson();
                 if (oldname != null) 
                 {
-                    tboxNick.Text = oldname;
+                    tboxNick.Text = oldname;        //если он есть вставляеться старое имя
                 }
             }
 
@@ -63,7 +63,7 @@ namespace TCPWPFTest
                     QuestionDialog questionDialog = new QuestionDialog("Вы уверены, что хотите продолжить под этим ником? (Он уже кем-то используеться)");
                     if (questionDialog.ShowDialog() == true)
                     {
-                        save2file(nickname);
+                        save2file(nickname); //сохранение в джейсон
                         NavigationService.Navigate(new MainContent());      //переход на главную страницу
                     }
                 }

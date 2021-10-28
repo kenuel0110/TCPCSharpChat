@@ -42,92 +42,92 @@
             </Border.Effect>
             <Grid Width="{Binding ElementName=canvas_main, Path=ActualWidth}" Height="{Binding ElementName=canvas_main, Path=ActualHeight}">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-            <Grid Background = "#382500" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="70"/>
-                </Grid.RowDefinitions>
+                <Grid Background = "#382500" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
 
-                <StackPanel MinWidth="150" MinHeight="550">
-                    <Button
+                    <StackPanel MinWidth="150" MinHeight="550">
+                        <Button
                     x:Name="btn_setting"
                     MinHeight="29"
                     Width="Auto"
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Foreground="White" Click="btn_setting_Click">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Width="Auto">
-                            <Image HorizontalAlignment="Left"  Source="/icons/icon_settings.png" />
-                            <TextBlock Text="Настройки" Foreground="White" Margin="5,0,0,0" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Button>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Width="Auto">
+                                <Image HorizontalAlignment="Left"  Source="/icons/icon_settings.png" />
+                                <TextBlock Text="Настройки" Foreground="White" Margin="5,0,0,0" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
 
-                    <Button
+                        <Button
                     x:Name="btn_About"
                     MinHeight="29"
-                    Width="Auto"
+                    Width="150"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Foreground="White">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Width="Auto">
-                            <Image HorizontalAlignment="Left" Source="/icons/icon_about.png" />
-                            <TextBlock Text="О программе" Foreground="White" Margin="5,0,0,0" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-
-
-
-                <StackPanel Background="#281b01" Grid.Row="2" Orientation="Horizontal" MinWidth="150" MinHeight="50">
-
-
-
-
-
-                    <Button Content="{StaticResource icon_ava}" Name="btn_nick_mainContent" Width="40" Height="40" Margin="18,15,0,15" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="#191101" Style="{StaticResource MaterialDesignFloatingActionButton}" Background="#191101" materialDesign:HintAssist.Hint="Настройки пользователя" Click="btn_nick_mainContent_Click"/>
-
-
-                    <StackPanel>
-                        <TextBlock x:FieldModifier="public" x:Name="label_UserNameMain" Text="Ник" Foreground="LightGray" FontWeight="SemiBold" Margin="5,20,0,0" VerticalAlignment="Center"/>
+                    Foreground="White" HorizontalAlignment="Right" Click="btn_About_Click">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Width="Auto">
+                                <Image HorizontalAlignment="Left" Source="/icons/icon_about.png" />
+                                <TextBlock Text="О программе" Foreground="White" Margin="5,0,0,0" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
 
-                </StackPanel>
-
-            </Grid>
 
 
-            <Grid Background="#533d00" Grid.Column="2" MinWidth="650" MinHeight="600">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="70"/>
-                </Grid.RowDefinitions>
+                    <StackPanel Background="#281b01" Grid.Row="2" Orientation="Horizontal" MinWidth="150" MinHeight="50">
+
+
+
+
+
+                        <Button Content="{StaticResource icon_ava}" Name="btn_nick_mainContent" Width="40" Height="40" Margin="18,15,0,15" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="#191101" Style="{StaticResource MaterialDesignFloatingActionButton}" Background="#191101" materialDesign:HintAssist.Hint="Настройки пользователя" Click="btn_nick_mainContent_Click"/>
+
+
+                        <StackPanel>
+                            <TextBlock x:FieldModifier="public" x:Name="label_UserNameMain" Text="Ник" Foreground="LightGray" FontWeight="SemiBold" Margin="5,20,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Grid>
+
+
+                <Grid Background="#533d00" Grid.Column="2" MinWidth="650" MinHeight="600">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
                     <TextBox Name="tb_readMessage" x:FieldModifier="public" Visibility="Hidden" Width="0" Height="0"/>
-                <DockPanel LastChildFill="True">
-                    <RichTextBox local:HtmlRichTextBoxBehavior.Text="{Binding ElementName= tb_readMessage, Path= Text}" Name="tb_read_message" Margin="3" Block.LineHeight="5" FontSize="16"  IsReadOnly="True" AcceptsReturn="True" materialDesign:TextFieldAssist.UnderlineCornerRadius="0"  materialDesign:TextFieldAssist.UnderlineBrush="#533d00" Style="{StaticResource MaterialDesignRichTextBox}" VerticalScrollBarVisibility="Visible" Foreground="White" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" CaretBrush="White" SelectionBrush="#CCFFFFFF"/>
-                </DockPanel>
-
-
-                <Grid Grid.Row="2" Background="#281b01">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="80"/>
-                    </Grid.ColumnDefinitions>
-
                     <DockPanel LastChildFill="True">
-                        <TextBox MaxLength="468" Name="tb_editMessage" TextWrapping="Wrap" FontSize="16" AcceptsReturn="True" materialDesign:HintAssist.Hint="Введите сообщение..." materialDesign:HintAssist.Foreground="LightGray" Foreground="White" Background="#322406" Margin="5" Style="{StaticResource MaterialDesignTextBoxBase}" materialDesign:TextFieldAssist.UnderlineBrush="#281b01" SelectionBrush="#CCFFFFFF" CaretBrush="White"/>
+                        <RichTextBox local:HtmlRichTextBoxBehavior.Text="{Binding ElementName= tb_readMessage, Path= Text}" Name="tb_read_message" Margin="3" Block.LineHeight="5" FontSize="16"  IsReadOnly="True" AcceptsReturn="True" materialDesign:TextFieldAssist.UnderlineCornerRadius="0"  materialDesign:TextFieldAssist.UnderlineBrush="#533d00" Style="{StaticResource MaterialDesignRichTextBox}" VerticalScrollBarVisibility="Visible" Foreground="White" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" CaretBrush="White" SelectionBrush="#CCFFFFFF"/>
                     </DockPanel>
 
-                    <Button ToolTip="Для отправки сообщения нажмите 'Ctrl+Enter'" Name="btn_send" Grid.Column="2" Content="{StaticResource icon_send}" Margin="13,8,13,8" Height="54" Width="54" Background="#281b01" BorderThickness="0" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Command="{StaticResource sendMessage}"/>
+
+                    <Grid Grid.Row="2" Background="#281b01">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+
+                        <DockPanel LastChildFill="True">
+                            <TextBox MaxLength="468" Name="tb_editMessage" TextWrapping="Wrap" FontSize="16" AcceptsReturn="True" materialDesign:HintAssist.Hint="Введите сообщение..." materialDesign:HintAssist.Foreground="LightGray" Foreground="White" Background="#322406" Margin="5" Style="{StaticResource MaterialDesignTextBoxBase}" materialDesign:TextFieldAssist.UnderlineBrush="#281b01" SelectionBrush="#CCFFFFFF" CaretBrush="White"/>
+                        </DockPanel>
+
+                        <Button ToolTip="Для отправки сообщения нажмите 'Ctrl+Enter'" Name="btn_send" Grid.Column="2" Content="{StaticResource icon_send}" Margin="13,8,13,8" Height="54" Width="54" Background="#281b01" BorderThickness="0" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Command="{StaticResource sendMessage}"/>
+                    </Grid>
+
                 </Grid>
 
             </Grid>
-
-        </Grid>
         </Border>
         <Grid Name="grid_settings" Visibility="Hidden" Canvas.ZIndex="0" Width="{Binding ElementName=canvas_main, Path=ActualWidth}" Height="{Binding ElementName=canvas_main, Path=ActualHeight}" Background="Transparent">
             <Border >
@@ -158,10 +158,10 @@
                 </Grid>
                 <Frame Name="frame_settings" Grid.Row="1" Source="Page_Settings.xaml"/>
             </Grid>
-            
+
         </Grid>
         <Grid Name="grid_rename"  Visibility="Hidden" Canvas.ZIndex="0" Width="{Binding ElementName=canvas_main, Path=ActualWidth}" Height="{Binding ElementName=canvas_main, Path=ActualHeight}" Background="Transparent">
-            
+
             <Border Name="borderRename" MinWidth="400" Margin="15" Background="#533d00" VerticalAlignment="Center" Padding="30" MaxWidth="550" CornerRadius="20">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="30" Color="#292219" ShadowDepth="0"/>
@@ -210,12 +210,12 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="130"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <Image Grid.Column="0" Source="icons/logo.png" Margin="5" Height="120" Width="120" VerticalAlignment="Top"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" Source="icons/logo.png" Margin="5" Height="120" Width="120" VerticalAlignment="Top"/>
                         <Grid Grid.Column="1" Margin="10">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -254,13 +254,12 @@
                     <StackPanel Grid.Row="1" Margin="10">
                         <TextBlock Foreground="White" Margin="5" FontWeight="SemiBold" HorizontalAlignment="Center" Text="C# TCP Чат комната"/>
                         <TextBlock Foreground="White" Text="Использует архитектуру 'Клиент-сервер'"/>
-                        <TextBlock Foreground="White" Text="Локально сохраняет ник и историю сообщений"/>
                         <TextBlock Foreground="White" Text="Локально сохраняет 'Ник' и историю сообщений пользователя"/>
                         <TextBlock Foreground="White" Text="Взаимодействует с Python клиентом" Margin="0,0,0,10"/>
                     </StackPanel>
                 </Grid>
 
-        </Grid>
+            </Grid>
 
         </Grid>
     </Canvas>

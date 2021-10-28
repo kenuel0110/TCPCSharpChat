@@ -22,26 +22,26 @@ namespace TCPCSharpChat
         public QuestionDialog(string question)
         {
             InitializeComponent();
-            lbl_Question.Text = question;
+            lbl_Question.Text = question;           //получение вопроса
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)      //перемещение окна
         {
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
 
-        private void btn_yes_Click(object sender, RoutedEventArgs e)
+        private void btn_yes_Click(object sender, RoutedEventArgs e)        //положительный ответ
         {
             this.DialogResult = true;
         }
 
-        private void btn_no_Click(object sender, RoutedEventArgs e)
+        private void btn_no_Click(object sender, RoutedEventArgs e)     //отрицательный ответ
         {
             this.DialogResult = false;
         }
 
-        private void btn_close_Click(object sender, RoutedEventArgs e)
+        private void btn_close_Click(object sender, RoutedEventArgs e)      //закрытие
         {
             this.Close();
         }

@@ -28,12 +28,12 @@ namespace TCPCSharpChat
             InitializeComponent();
         }
 
-        private void btn_connect_Click(object sender, RoutedEventArgs e)
+        private void btn_connect_Click(object sender, RoutedEventArgs e)        // кнопка настройки соединения
         {
             NavigationService.Navigate(new PageConnect());
         }
 
-        private void btn_Message_Click(object sender, RoutedEventArgs e)
+        private void btn_Message_Click(object sender, RoutedEventArgs e)        // кнопка истории сообщений
         {
             NavigationService.Navigate(new PageHistory());
         }

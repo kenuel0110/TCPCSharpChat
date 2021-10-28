@@ -26,35 +26,35 @@ namespace TCPWPFTest
     public partial class MainWindow : Window
     {
 
-        public string current = "";
-        public string oldname = "";
-        public string status = "";
+        public string current = "";     //переменая имени
+        public string oldname = "";     //переменная старого имени
+        public string status = "";          // переменная статуса
 
         public MainWindow()
         {
             InitializeComponent();
 
-            if (File.Exists("fail.json"))
+            if (File.Exists("fail.json"))       //если есть файл с ошибкой запуск страницы с настройкой соединения
             {
                 MainFrame.Navigate(new PageConnectFull());
-                File.Delete("fail.json");
+                File.Delete("fail.json");               //удаление файла
             }
 
-            else if (File.Exists("user.json"))
+            else if (File.Exists("user.json"))      //проверка существования файла пользователя
             {
-                readjson();
+                readjson();                        // чтение данных
                 if (status == "In")
                 {
-                    MainFrame.Navigate(new MainContent());   //открытие окна "регистрации" Нужно будет сделать проверку на "вхождение"
+                    MainFrame.Navigate(new MainContent());   //открытие главного окна 
                 }
                 else if (status == "Out") 
                 {
-                    MainFrame.Navigate(new PageSignIn());
+                    MainFrame.Navigate(new PageSignIn());   //открытие окна для входа
                 }
             }
             else if (!(File.Exists("user.json")))
             {
-                MainFrame.Navigate(new PageSignIn());   //открытие окна "регистрации" Нужно будет сделать проверку на "вхождение"
+                MainFrame.Navigate(new PageSignIn());   //открытие окна для входа
             }
         }
 
@@ -81,7 +81,7 @@ namespace TCPWPFTest
         }
 
         
-        private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)   //событие закрытие окна
         {
             string json = File.ReadAllText("user.json");
             User users = JsonConvert.DeserializeObject<User>(json);
@@ -89,7 +89,7 @@ namespace TCPWPFTest
 
             string discont_notification = $"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> покинул чат</font></tr></td></table><br></body></html>";
 
-            if (System.IO.Directory.Exists("messages"))
+            if (System.IO.Directory.Exists("messages")) //"дозапись" файла сообщения 
             {
                 if (File.Exists($"messages/{userName}.txt"))
                 {
@@ -97,12 +97,12 @@ namespace TCPWPFTest
                 }
             }
 
-            MainContent.send_notification(discont_notification);
-            MainContent.disconnect();
+            MainContent.send_notification(discont_notification);    //отправка уведомления
+            MainContent.disconnect();           //отключение
 
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)      // перемещение окна
         {
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
@@ -118,12 +118,12 @@ namespace TCPWPFTest
 
         }
 
-        private void Window_Activated(object sender, EventArgs e)
+        private void Window_Activated(object sender, EventArgs e)       //фокус на окне
         {
             MainContent.focus = "True";
         }
 
-        private void Window_Deactivated(object sender, EventArgs e)
+        private void Window_Deactivated(object sender, EventArgs e)         // нет фокуса на окне
         {
             MainContent.focus = "False";
         }

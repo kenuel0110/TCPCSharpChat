@@ -31,16 +31,17 @@ namespace TCPCSharpChat
 
         public PageConnect()
         {
-            InitializeComponent();
-            if (File.Exists("connection.json"))
+            InitializeComponent();      
+            if (File.Exists("connection.json"))     //проверка существования файла с настройкой соединения
             {
-                readjson();
+                readjson();         //чтение файла
                 tb_port.Text = port.ToString();
-                String[] words = ip.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                String[] words = ip.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries); //дробление ip
                 tb_oneninetwo.Text = words[0];
                 tb_onesixeight.Text = words[1];
                 tb_zero.Text = words[2];
                 tb_ten.Text = words[3];
+                //заполнение данных
             }
         }
         public void readjson()            //функция чтения json файла
@@ -51,7 +52,7 @@ namespace TCPCSharpChat
             port = conn.port;
         }
 
-        private void btn_save_Click(object sender, RoutedEventArgs e)
+        private void btn_save_Click(object sender, RoutedEventArgs e)  //сохранение настроек
         {
             Connecting conn = new Connecting();
             var options = new JsonSerializerOptions
@@ -68,7 +69,7 @@ namespace TCPCSharpChat
             string jsonString = System.Text.Json.JsonSerializer.Serialize<Connecting>(conn, options);
             File.WriteAllText("connection.json", jsonString);
 
-            QuestionDialog questionDialog = new QuestionDialog("Вы уверены, что хотите применить настройки? (Программа закроется)");
+            QuestionDialog questionDialog = new QuestionDialog("Вы уверены, что хотите применить настройки? (Программа закроется)"); //открытие диолога
             if (questionDialog.ShowDialog() == true)
             {
                 MainContent.disconnect();
@@ -77,7 +78,7 @@ namespace TCPCSharpChat
 
         }
 
-        private void btn_Back_Click(object sender, RoutedEventArgs e)
+        private void btn_Back_Click(object sender, RoutedEventArgs e) //возращение назад в меню настроек
         {
             if (NavigationService.CanGoBack == true) 
             {

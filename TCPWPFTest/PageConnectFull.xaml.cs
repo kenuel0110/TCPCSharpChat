@@ -29,6 +29,8 @@ namespace TCPCSharpChat
         public string ip = "";
         public int port = 0;
 
+        // всё тоже самое что и в PageConnect только эта страница открываеться при отсутствии соединения
+
         public PageConnectFull()
         {
             InitializeComponent();
