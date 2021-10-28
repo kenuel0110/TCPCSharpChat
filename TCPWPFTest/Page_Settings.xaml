@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TCPCSharpChat"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="200"
+      d:DesignHeight="300" d:DesignWidth="235"
       Title="Page_Settings">
 
     <Grid Background="#382500">
@@ -18,8 +18,8 @@
                     BorderBrush="Transparent"
                     Foreground="White" Click="btn_connect_Click">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Width="Auto">
-                    <Image HorizontalAlignment="Left"  Source="/icons/icon_settings.png" />
-                    <TextBlock Text="Соединение" Foreground="White" Margin="5,0,0,0" HorizontalAlignment="Center" />
+                    <Image HorizontalAlignment="Left"  Source="/icons/icon_settings_connect.png" />
+                    <TextBlock Text="Настройка соединения" Foreground="White" Margin="5,0,0,0" HorizontalAlignment="Center" />
                 </StackPanel>
             </Button>
         </StackPanel>

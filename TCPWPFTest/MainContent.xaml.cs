@@ -21,15 +21,17 @@ using TCPCSharpChat;
 using System.Text.Json;
 using System.Text.Encodings.Web;
 using System.Windows.Media.Effects;
+using System.Diagnostics;
 
 namespace TCPWPFTest
 {
     
+
     public partial class MainContent : Page
     {
 
-        private const string host = "127.0.0.1";        //переменная ip адресса
-        private const int port = 55555;                 //переменная порта
+        public string host = "";        //переменная ip адресса
+        public int port = 0;                 //переменная порта
         static TcpClient client;                        //переменная клиента
         static NetworkStream stream;                    //переменная потока
 
@@ -41,7 +43,32 @@ namespace TCPWPFTest
             InitializeComponent();
             read4jsonName();
             changeName();
+
+            if (!(File.Exists("connection.json")))
+            {
+                Connecting conn = new Connecting();
+                var options = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                    WriteIndented = true
+                };
+
+                conn.ip = "127.0.0.1";
+                conn.port = 55555;
+
+                string jsonString = System.Text.Json.JsonSerializer.Serialize<Connecting>(conn, options);
+                File.WriteAllText("connection.json", jsonString);
+            }
+            else if (File.Exists("connection.json")) 
+            {
+                string json = File.ReadAllText("connection.json");
+                Connecting conn = JsonConvert.DeserializeObject<Connecting>(json);
+                host = conn.ip;
+                port = conn.port;
+            }
+
             start();
+
 
         }
 
@@ -70,12 +97,11 @@ namespace TCPWPFTest
             }
             catch //окно настройки соедиения
             {
-            
+                File.WriteAllText("fail.json", "Траблы");
+                MessageBox.Show("Проблемы с соединением, перезапустите приложение");
+                Application.Current.Shutdown();
             }
-                /*string message = userName;
-                byte[] data = Encoding.UTF8.GetBytes(message);
-                stream.Write(data, 0, data.Length);*/
-
+                
                 // запускаем новый поток для получения данных
                 Thread receiveThread = new Thread(new ThreadStart(receiveMessage));
                 receiveThread.Start(); //старт потока

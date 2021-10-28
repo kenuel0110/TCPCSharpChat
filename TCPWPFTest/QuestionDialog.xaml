@@ -1,0 +1,81 @@
+﻿<Window x:Class="TCPCSharpChat.QuestionDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TCPCSharpChat"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Background="#382500"
+        Title="QuestionDialog" Height="138"
+        WindowStartupLocation="CenterScreen" d:DesignWidth="400"
+        >
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.ColumnSpan="2" Background="#1f180f">
+
+            <Grid HorizontalAlignment="Stretch" MouseDown="Grid_MouseDown">
+
+                <Label Content="Вопрос" Foreground="LightGray" FontWeight="SemiBold"/>
+
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button
+                    x:Name="btn_close"
+                    Width="20"
+                    Height="20"
+                    Margin="2.5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    BorderBrush="Transparent"                  
+                    Foreground="White"
+                    Click="btn_close_Click"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                        <Image Source="/icons/btn_close.png" />
+                    </Button>
+
+                </StackPanel>
+            </Grid>
+
+        </Border>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Image Source="/icons/icon_ok.png" Grid.Column="0"/>
+                <TextBlock Grid.Column="1" Foreground="White" Name="lbl_Question" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="2">
+                <Button
+                    x:Name="btn_yes"
+                    Width="Auto"
+                    Background="#382500"
+                    Content="Да"
+                    BorderBrush="Transparent"
+                    Foreground="White" Click="btn_yes_Click" Height="Auto"/>
+                <Button
+                    x:Name="btn_no"
+                    Width="Auto"
+                    Background="#382500"
+                    Content="Нет"
+                    BorderBrush="Transparent"
+                    Margin="5,0,0,0"
+                    Foreground="White" Click="btn_no_Click" Height="Auto"/>
+
+
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

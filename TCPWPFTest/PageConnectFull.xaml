@@ -1,4 +1,4 @@
-﻿<Page x:Class="TCPCSharpChat.PageConnect"
+﻿<Page x:Class="TCPCSharpChat.PageConnectFull"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -24,23 +24,7 @@
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <Border Background="#382500">
-                <Grid>
-                    <Button
-                    x:Name="btn_Back"
-                    Width="20"
-                    Height="20"
-                    Margin="2.5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Background="Transparent"
-                    BorderBrush="Transparent"                  
-                    Foreground="White"
-                    Click="btn_Back_Click"
-                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
-                        <Image Source="/icons/icon_back.png" />
-                    </Button>
-                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="Настройка соединения" Foreground="White" FontWeight="SemiBold"/>
-                </Grid>
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="Настройка соединения" Foreground="White" FontWeight="SemiBold"/>
             </Border>
             <StackPanel Grid.Row="1" Margin="15">
 

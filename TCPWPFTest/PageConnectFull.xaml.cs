@@ -23,13 +23,13 @@ namespace TCPCSharpChat
     /// <summary>
     /// Логика взаимодействия для PageConnect.xaml
     /// </summary>
-    public partial class PageConnect : Page
+    public partial class PageConnectFull : Page
     {
 
         public string ip = "";
         public int port = 0;
 
-        public PageConnect()
+        public PageConnectFull()
         {
             InitializeComponent();
             if (File.Exists("connection.json"))
@@ -77,12 +77,6 @@ namespace TCPCSharpChat
 
         }
 
-        private void btn_Back_Click(object sender, RoutedEventArgs e)
-        {
-            if (NavigationService.CanGoBack == true) 
-            {
-                NavigationService.GoBack();
-            }
-        }
+        
     }
 }

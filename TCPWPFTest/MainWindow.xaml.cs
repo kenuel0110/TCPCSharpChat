@@ -50,6 +50,11 @@ namespace TCPWPFTest
             {
                 MainFrame.Navigate(new PageSignIn());   //открытие окна "регистрации" Нужно будет сделать проверку на "вхождение"
             }
+            if (File.Exists("fail.json")) 
+            {
+                File.Delete("fail.json");
+                MainFrame.Navigate(new PageConnectFull());
+            }
         }
 
         private void btn_close_Click(object sender, RoutedEventArgs e)      //кнопка закрыть
