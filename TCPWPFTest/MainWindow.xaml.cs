@@ -118,5 +118,14 @@ namespace TCPWPFTest
 
         }
 
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            MainContent.focus = "True";
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            MainContent.focus = "False";
+        }
     }
 }

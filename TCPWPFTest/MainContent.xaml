@@ -7,7 +7,8 @@
       mc:Ignorable="d" 
       Width="auto" Height="auto"  
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      Title="MainContent"
+      Title="MainContent" LostFocus="Page_LostFocus" GotFocus="Page_GotFocus"
+      
 >
     <Page.Resources>
         <ResourceDictionary>

@@ -41,6 +41,8 @@ namespace TCPWPFTest
         public static string oldname = "";
         public static string status = "";
 
+        public static string focus = "true";
+
         public MainContent()
         {
 
@@ -87,12 +89,13 @@ namespace TCPWPFTest
 
         public static void pcNotification(string message) 
         {
-            new ToastContentBuilder()
-            .AddArgument("action", "viewConversation")
-            .AddArgument("conversationId", 9813)
-            .AddText("Andrew sent you a picture")
-            .AddText(Regex.Replace(message, "<.*?>", String.Empty))
-            .Show();
+            if (focus == "False")
+            {
+                new ToastContentBuilder()
+                    .AddText("Чат")
+                    .AddText("У вас есть сообщения")
+                    .Show();
+            }
         }
 
         public void changeName()            //функция чтения json файла имени
@@ -227,7 +230,7 @@ namespace TCPWPFTest
             Canvas.SetZIndex(grid_rename, 2);
             grid_rename.Visibility = Visibility.Visible;
             BlurEffect blur = new BlurEffect();
-            blur.Radius = 4;
+            blur.Radius = 6;
             grid_MainContent.Effect = blur;
 
         }
@@ -268,7 +271,7 @@ namespace TCPWPFTest
             grid_settings.Visibility = Visibility.Visible;
             frame_settings.Source = new Uri("Page_Settings.xaml", UriKind.Relative); 
             BlurEffect blur = new BlurEffect();
-            blur.Radius = 4;
+            blur.Radius = 6;
             grid_MainContent.Effect = blur;
 
         }
@@ -322,6 +325,8 @@ namespace TCPWPFTest
             string jsonString = System.Text.Json.JsonSerializer.Serialize<User>(user, options);
             File.WriteAllText("user.json", jsonString);
 
+            File.Move($"messages/{current}.txt", $"messages/{nickname}.txt");
+
             string message = $"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{current}</b> изменил имя на <b>{nickname}</b></font></tr></td></table><br></body></html>";
             send_notification(message);
             current = nickname;
@@ -345,6 +350,16 @@ namespace TCPWPFTest
             BlurEffect blur = new BlurEffect();
             blur.Radius = 0;
             grid_MainContent.Effect = blur;
+        }
+
+        private void Page_LostFocus(object sender, RoutedEventArgs e)
+        {
+            focus = "False";
+        }
+
+        private void Page_GotFocus(object sender, RoutedEventArgs e)
+        {
+            focus = "True";
         }
     }
 }
