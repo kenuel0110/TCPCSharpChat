@@ -7,12 +7,13 @@
       mc:Ignorable="d" 
       Width="auto" Height="auto"  
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      Title="MainContent" >
-
+      Title="MainContent"
+>
     <Page.Resources>
         <ResourceDictionary>
             <Image x:Key="icon_ava" Source = "/icons/icon_ava.png"  Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <Image x:Key="icon_send" Source="/icons/btn_send.png" Margin="10"/>
+            <Image x:Key="icon_back" Source="/icons/icon_back.png"/>
             <ContextMenu Background = "#382500" x:Key="CMUser">
                 <MenuItem Foreground="White" Header="Изменить имя" Click="btn_rename">
                     <MenuItem.Icon>
@@ -104,7 +105,7 @@
                     <RowDefinition/>
                     <RowDefinition Height="70"/>
                 </Grid.RowDefinitions>
-                <TextBox Name="tb_readMessage" Visibility="Hidden" Width="0" Height="0"/>
+                    <TextBox Name="tb_readMessage" x:FieldModifier="public" Visibility="Hidden" Width="0" Height="0"/>
                 <DockPanel LastChildFill="True">
                     <RichTextBox local:HtmlRichTextBoxBehavior.Text="{Binding ElementName= tb_readMessage, Path= Text}" Name="tb_read_message" Margin="3" Block.LineHeight="5" FontSize="16"  IsReadOnly="True" AcceptsReturn="True" materialDesign:TextFieldAssist.UnderlineCornerRadius="0"  materialDesign:TextFieldAssist.UnderlineBrush="#533d00" Style="{StaticResource MaterialDesignRichTextBox}" VerticalScrollBarVisibility="Visible" Foreground="White" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" CaretBrush="White" SelectionBrush="#CCFFFFFF"/>
                 </DockPanel>
@@ -157,6 +158,23 @@
                 <Frame Name="frame_settings" Grid.Row="1" Source="Page_Settings.xaml"/>
             </Grid>
             
+        </Grid>
+        <Grid Name="grid_rename"  Visibility="Hidden" Canvas.ZIndex="0" Width="{Binding ElementName=canvas_main, Path=ActualWidth}" Height="{Binding ElementName=canvas_main, Path=ActualHeight}" Background="Transparent">
+            
+            <Border Name="borderRename" MinWidth="400" Margin="15" Background="#533d00" VerticalAlignment="Center" Padding="30" MaxWidth="550" CornerRadius="20">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="30" Color="#292219" ShadowDepth="0"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="Введите новое имя" Foreground="#ffff" FontSize="30" FontWeight="Bold" Margin="0 0 0 20"/>
+                    <TextBox materialDesign:HintAssist.Hint="Введите новый никнейм" materialDesign:TextFieldAssist.UnderlineCornerRadius="8" materialDesign:TextFieldAssist.TextBoxViewMargin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Foreground="#fff"  materialDesign:TextFieldAssist.UnderlineBrush="#fff" Name="tboxNewNick" Foreground="#fff" BorderBrush="#89FFFFFF" CaretBrush="White" FontSize="14" SelectionBrush="#66DEDEDE" TextChanged="tboxNickEventHandler"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="{StaticResource icon_back}" Margin="0 20" Background="#3d2800" BorderBrush="#003D2800" Click="btnRenameCancel_Click"  Name="btnRenameCancel"/>
+                        <Button Content="Переименоваться" HorizontalAlignment="Stretch" MinWidth="429" MaxWidth="500" Margin="5 20" Background="#3d2800" BorderBrush="#003D2800" Click="btnRename_Click"  Name="btnRename"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
         </Grid>
     </Canvas>
 </Page>

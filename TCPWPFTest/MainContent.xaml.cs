@@ -22,6 +22,8 @@ using System.Text.Json;
 using System.Text.Encodings.Web;
 using System.Windows.Media.Effects;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace TCPWPFTest
 {
@@ -36,6 +38,8 @@ namespace TCPWPFTest
         static NetworkStream stream;                    //переменная потока
 
         public static string current = "";         //переменая для имени
+        public static string oldname = "";
+        public static string status = "";
 
         public MainContent()
         {
@@ -77,6 +81,18 @@ namespace TCPWPFTest
             string json = File.ReadAllText("user.json");
             User users = JsonConvert.DeserializeObject<User>(json);
             current = users.CurrentUser;
+            oldname = users.OldName;
+            status = users.Status;
+        }
+
+        public static void pcNotification(string message) 
+        {
+            new ToastContentBuilder()
+            .AddArgument("action", "viewConversation")
+            .AddArgument("conversationId", 9813)
+            .AddText("Andrew sent you a picture")
+            .AddText(Regex.Replace(message, "<.*?>", String.Empty))
+            .Show();
         }
 
         public void changeName()            //функция чтения json файла имени
@@ -106,7 +122,8 @@ namespace TCPWPFTest
                 // запускаем новый поток для получения данных
                 Thread receiveThread = new Thread(new ThreadStart(receiveMessage));
                 receiveThread.Start(); //старт потока
-                send_notification($"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> присоеденился к чату</font></tr></td></table><br></body></html>");
+                string notification_startup = $"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> присоеденился к чату</font></tr></td></table><br></body></html>";
+                send_notification(notification_startup);
 
       
         }
@@ -136,6 +153,25 @@ namespace TCPWPFTest
                     else 
                     {
                         tb_readMessage.AppendText(message);//вывод сообщения
+                    }
+
+                    if (System.IO.Directory.Exists("messages"))
+                    {
+                        if (File.Exists($"messages/{current}.txt"))
+                        {
+                            File.AppendAllText($"messages/{current}.txt", message);
+                            pcNotification(message);
+                        }
+                        else 
+                        {
+                            File.WriteAllText($"messages/{current}.txt", message);
+                            pcNotification(message);
+                        }
+                    }
+                    else if (!(System.IO.Directory.Exists("messages")))
+                    {
+                        Directory.CreateDirectory("messages");
+                        File.WriteAllText($"messages/{current}.txt", message);
                     }
 
                 }
@@ -188,7 +224,15 @@ namespace TCPWPFTest
         private void btn_rename(object sender, RoutedEventArgs e)
         {
 
+            Canvas.SetZIndex(grid_rename, 2);
+            grid_rename.Visibility = Visibility.Visible;
+            BlurEffect blur = new BlurEffect();
+            blur.Radius = 4;
+            grid_MainContent.Effect = blur;
+
         }
+
+
 
         private void btn_signout(object sender, RoutedEventArgs e)
         {
@@ -238,6 +282,69 @@ namespace TCPWPFTest
              blur.Radius = 0;
              grid_MainContent.Effect = blur;
             
+        }
+
+        private void tboxNickEventHandler(object sender, TextChangedEventArgs args)
+        {
+            tboxNewNick.Foreground = Brushes.White;        //исправления цвета текста при ошибке
+        }
+
+        private void btnRename_Click(object sender, RoutedEventArgs e)
+        {
+            string nickname = tboxNewNick.Text;        //изьятие из текстбокса
+            string[] allFoundFiles = Directory.GetFiles("messages", $"{nickname}.txt");
+
+            if (nickname.Length == 0) { tboxNewNick.Foreground = Brushes.Red; tboxNewNick.ToolTip = "Введите хоть что-нибудь"; }      //проверка данных
+            else if (nickname.Length < 3) { tboxNewNick.Foreground = Brushes.Red; tboxNewNick.ToolTip = "Длина ника должна быть больше 3-х символов"; }
+            else if (Regex.IsMatch(nickname, @"[\%\/\\\&\?\,\'\;\:\!\-\0-9]+") == true) { tboxNewNick.Foreground = Brushes.Red; tboxNewNick.ToolTip = "Ник имеет недопустимые символы"; }
+            else if (allFoundFiles.Any() == true) { tboxNewNick.Foreground = Brushes.Red; tboxNewNick.ToolTip = "Этот ник уже используеться одним из пользователей этого приложения"; }
+            else
+            {
+                rename(nickname);
+            }
+        }
+
+        private void rename(string nickname) 
+        {
+            read4jsonName();
+            var options = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                WriteIndented = true
+            };
+
+            User user = new User();
+
+            user.CurrentUser = nickname;
+            user.OldName = oldname;
+            user.Status = status;
+
+            string jsonString = System.Text.Json.JsonSerializer.Serialize<User>(user, options);
+            File.WriteAllText("user.json", jsonString);
+
+            string message = $"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{current}</b> изменил имя на <b>{nickname}</b></font></tr></td></table><br></body></html>";
+            send_notification(message);
+            current = nickname;
+            changeName();
+
+            tboxNewNick.Text = "";
+
+            Canvas.SetZIndex(grid_rename, 0);
+            grid_rename.Visibility = Visibility.Hidden;
+            BlurEffect blur = new BlurEffect();
+            blur.Radius = 0;
+            grid_MainContent.Effect = blur;
+
+        }
+
+        private void btnRenameCancel_Click(object sender, RoutedEventArgs e)
+        {
+            tboxNewNick.Text = "";
+            Canvas.SetZIndex(grid_rename, 0);
+            grid_rename.Visibility = Visibility.Hidden;
+            BlurEffect blur = new BlurEffect();
+            blur.Radius = 0;
+            grid_MainContent.Effect = blur;
         }
     }
 }

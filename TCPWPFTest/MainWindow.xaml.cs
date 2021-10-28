@@ -87,8 +87,19 @@ namespace TCPWPFTest
             User users = JsonConvert.DeserializeObject<User>(json);
             string userName = users.CurrentUser;
 
-            MainContent.send_notification($"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> покинул чат</font></tr></td></table><br></body></html>");
+            string discont_notification = $"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> покинул чат</font></tr></td></table><br></body></html>";
+
+            if (System.IO.Directory.Exists("messages"))
+            {
+                if (File.Exists($"messages/{userName}.txt"))
+                {
+                    File.AppendAllText($"messages/{userName}.txt", discont_notification);
+                }
+            }
+
+            MainContent.send_notification(discont_notification);
             MainContent.disconnect();
+
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)

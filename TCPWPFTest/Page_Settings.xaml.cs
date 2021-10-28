@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +31,11 @@ namespace TCPCSharpChat
         private void btn_connect_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new PageConnect());
+        }
+
+        private void btn_Message_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new PageHistory());
         }
     }
 }

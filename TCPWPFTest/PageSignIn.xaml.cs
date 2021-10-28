@@ -51,16 +51,27 @@ namespace TCPWPFTest
         {
 
             string nickname = tboxNick.Text;        //изьятие из текстбокса
+            string[] allFoundFiles = Directory.GetFiles("messages", $"{nickname}.txt");
 
             if (nickname.Length == 0) { tboxNick.Foreground = Brushes.Red; tboxNick.ToolTip = "Введите хоть что-нибудь"; }      //проверка данных
             else if (nickname.Length < 3) { tboxNick.Foreground = Brushes.Red; tboxNick.ToolTip = "Длина ника должна быть больше 3-х символов"; }
             else if (Regex.IsMatch(nickname, @"[\%\/\\\&\?\,\'\;\:\!\-\0-9]+") == true) { tboxNick.Foreground = Brushes.Red; tboxNick.ToolTip = "Ник имеет недопустимые символы"; }
             else
             {
-
-                save2file(nickname);
-                NavigationService.Navigate(new MainContent());      //переход на главную страницу
-                
+                if (allFoundFiles.Any() == true) 
+                {
+                    QuestionDialog questionDialog = new QuestionDialog("Вы уверены, что хотите продолжить под этим ником? (Он уже кем-то используеться)");
+                    if (questionDialog.ShowDialog() == true)
+                    {
+                        save2file(nickname);
+                        NavigationService.Navigate(new MainContent());      //переход на главную страницу
+                    }
+                }
+                else
+                {
+                    save2file(nickname);
+                    NavigationService.Navigate(new MainContent());      //переход на главную страницу
+                }
             }
         }
 
