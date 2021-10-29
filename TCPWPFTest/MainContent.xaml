@@ -226,7 +226,7 @@
                                 <TextBlock Foreground="White" FontWeight="SemiBold" Text="C# TCP Чат комната"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Foreground="White" FontWeight="SemiBold" Text="Снапшот версии:"/>
-                                    <TextBlock Foreground="White" Margin="3,0,0,0" Text="29.10.0114"/>
+                                    <TextBlock Foreground="White" Margin="3,0,0,0" Text="21 29.10.0340"/>
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Margin="0,8,0,8">

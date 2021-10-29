@@ -49,7 +49,10 @@ namespace TCPWPFTest
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)  //войти
         {
-
+            if (!(System.IO.Directory.Exists("messages"))) 
+            {
+                Directory.CreateDirectory("messages");
+            }
             string nickname = tboxNick.Text;        //изьятие из текстбокса
             string[] allFoundFiles = Directory.GetFiles("messages", $"{nickname}.txt");
 
