@@ -56,6 +56,7 @@
 |![ip и порт](screenshots/ipConf.jpg)|
 |:--:| 
 | *ip и порт* |
+
 |![Настройка соединения](screenshots/connect.jpg)|
 |:--:| 
 | *Настройка соединения* |
