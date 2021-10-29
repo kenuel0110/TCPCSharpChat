@@ -46,5 +46,13 @@
 <img src="screenshots/mainScreenshot.jpg"/></p>
 
 ***
+# Запуск
+Перед запуском основной программы нужно запустить сервер (server.py)
+Программная настройка ip и порта производится изменением представленых переменных в файле MainContent.xaml.cs
+
+|![ip и порт](screenshots/ipConf.jpg)|
+|:--:| 
+| *ip и порт* |
+
 ---
 <p align="center"><img src="screenshots/logo.png"/></p>
