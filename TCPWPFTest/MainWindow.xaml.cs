@@ -83,22 +83,29 @@ namespace TCPWPFTest
         
         private void Window_Closing(object sender, CancelEventArgs e)   //событие закрытие окна
         {
-            string json = File.ReadAllText("user.json");
-            User users = JsonConvert.DeserializeObject<User>(json);
-            string userName = users.CurrentUser;
-
-            string discont_notification = $"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> покинул чат</font></tr></td></table><br></body></html>";
-
-            if (System.IO.Directory.Exists("messages")) //"дозапись" файла сообщения 
+            if (File.Exists("user.json"))
             {
-                if (File.Exists($"messages/{userName}.txt"))
-                {
-                    File.AppendAllText($"messages/{userName}.txt", discont_notification);
-                }
-            }
+                string json = File.ReadAllText("user.json");
+                User users = JsonConvert.DeserializeObject<User>(json);
+                string userName = users.CurrentUser;
 
-            MainContent.send_notification(discont_notification);    //отправка уведомления
-            MainContent.disconnect();           //отключение
+                string discont_notification = $"<html><head/><body><table width = '100%' cellpadding='3' cellspacing='0'><tr><td valign='center' align = 'center'><font color = '#ffffff'><b>{userName}</b> покинул чат</font></tr></td></table><br></body></html>";
+
+                if (System.IO.Directory.Exists("messages")) //"дозапись" файла сообщения 
+                {
+                    if (File.Exists($"messages/{userName}.txt"))
+                    {
+                        File.AppendAllText($"messages/{userName}.txt", discont_notification);
+                    }
+                }
+
+                MainContent.send_notification(discont_notification);    //отправка уведомления
+                MainContent.disconnect();           //отключение
+            }
+            else 
+            {
+                MainContent.disconnect();
+            }
 
         }
 
